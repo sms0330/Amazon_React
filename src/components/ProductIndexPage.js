@@ -9,7 +9,7 @@ export class ProductIndexPage extends Component {
     };
 
     // this.createProduct = this.createQuestion.bind(this);
-    // this.deleteProduct = this.deleteProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
     console.log('Productindex Component initialized');
   }
 
@@ -28,13 +28,13 @@ export class ProductIndexPage extends Component {
   //     });
   //   }
 
-  //   deleteProduct(id) {
-  //     this.setState(state => {
-  //       return {
-  //         prodcuts: this.state.prodcuts.filter(q => q.id != id),
-  //       };
-  //     });
-  //   }
+  deleteProduct(id) {
+    this.setState(state => {
+      return {
+        prodcuts: this.state.prodcuts.filter(q => q.id != id),
+      };
+    });
+  }
 
   render() {
     console.log('Product index page rendered');
@@ -51,7 +51,7 @@ export class ProductIndexPage extends Component {
               <p>
                 <small>Seller: {p.seller.full_name} </small>
               </p>
-              {/* {<button onClick={() => this.deleteProduct(p.id)}>Delete</button>} */}
+              {<button onClick={() => this.deleteProduct(p.id)}>Delete</button>}
             </div>
           );
         })}
