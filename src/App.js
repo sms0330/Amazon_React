@@ -1,9 +1,11 @@
 import './App.css';
-import ProductShowPage from './components/ProductShowPage'
+import { ProductIndexPage } from './components/ProductIndexPage';
+import ProductShowPage from './components/ProductShowPage';
 
 function App() {
   return (
-    <div >
+    <div>
+      <ProductIndexPage />
       <ProductShowPage />
     </div>
   );
