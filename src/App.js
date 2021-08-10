@@ -1,9 +1,10 @@
 import './App.css';
+import ProductShowPage from './components/ProductShowPage'
 
 function App() {
   return (
-    <div className="App">
-      Amazon React App
+    <div >
+      <ProductShowPage />
     </div>
   );
 }
