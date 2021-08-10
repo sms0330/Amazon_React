@@ -7,6 +7,15 @@ class ProductShowPage extends Component {
   constructor(props) {
     super(props);
     this.state = productData;
+    this.deleteReview = this.deleteReview.bind(this);
+  }
+
+  deleteReview(id) {
+    this.setState(state => {
+      return {
+        reviews: this.state.reviews.filter(r => r.id !== id),
+      };
+    });
   }
 
   render() {
@@ -22,7 +31,7 @@ class ProductShowPage extends Component {
           updated_at={new Date(this.state.updated_at)}
           seller={this.state.seller}
         />
-        <ReviewList reviews={this.state.reviews} />
+        <ReviewList reviews={this.state.reviews} deleteReview={this.deleteReview} />
       </div>
     );
   }

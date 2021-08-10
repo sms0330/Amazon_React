@@ -14,6 +14,7 @@ function ReviewDetails(props) {
         <small>Create Date: {props.created_at}</small>
       </p>
       <StarRating max={5} current={props.rating} />
+      <button onClick={() => props.deleteReview(props.id)}>Delete</button>
     </div>
   );
 }

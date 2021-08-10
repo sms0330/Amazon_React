@@ -6,7 +6,7 @@ function ReviewList(props) {
     <ul className="ReviewList">
       {props.reviews.map(review => (
         <li className="ui segment" key={review.id}>
-          <ReviewDetails {...review} />
+          <ReviewDetails {...review} deleteReview={props.deleteReview} />
         </li>
       ))}
     </ul>
