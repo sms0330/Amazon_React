@@ -3,6 +3,7 @@ export default [
     id: 117,
     title: 'Tophat jones',
     price: 5,
+    created_at: '2018-01-13T12:03:55.000Z',
     seller: {
       id: 33,
       first_name: 'Keanu',
@@ -14,6 +15,7 @@ export default [
     id: 177,
     title: 'Morty smith',
     price: 6,
+    created_at: '2018-01-13T12:03:55.000Z',
     seller: {
       id: 19,
       first_name: 'Ward',
@@ -25,6 +27,7 @@ export default [
     id: 65,
     title: "Beth's mytholog",
     price: 8,
+    created_at: '2018-01-13T12:03:55.000Z',
     seller: {
       id: 9,
       first_name: 'Neva',
@@ -47,6 +50,7 @@ export default [
     id: 173,
     title: 'Jerry smith',
     price: 5,
+    created_at: '2018-01-13T12:03:55.000Z',
     seller: {
       id: 44,
       first_name: 'Anibal',
@@ -58,6 +62,7 @@ export default [
     id: 300,
     title: 'Beta vii',
     price: 4,
+    created_at: '2018-01-13T12:03:55.000Z',
     seller: {
       id: 12,
       first_name: 'Abbey',
@@ -69,6 +74,7 @@ export default [
     id: 301,
     title: 'Rick sanchez',
     price: 10,
+    created_at: '2018-01-13T12:03:55.000Z',
     seller: {
       id: 23,
       first_name: 'Gregoria',

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import prodcutsIndexData from '../prodcutsIndexData';
+import productsIndexData from '../productsIndexData';
 
 export class ProductIndexPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      prodcuts: prodcutsIndexData,
+      products: productsIndexData,
     };
 
     // this.createProduct = this.createQuestion.bind(this);
@@ -40,21 +40,26 @@ export class ProductIndexPage extends Component {
     console.log('Product index page rendered');
     return (
       <main>
-        {this.state.prodcuts.map(p => {
-          return (
-            <div key={p.id}>
-              <h1>
-                {p.id} - {p.title}
-              </h1>
-              <h4>Price: ${p.price}</h4>
-              <h5>Create Date: {new Date(p.created_at).toLocaleDateString()}</h5>
+        <h1>Products</h1>
+        <ul>
+          {this.state.products.map((product, index) => (
+            <li key={index}>
               <p>
-                <small>Seller: {p.seller.full_name} </small>
+                <h2>{product.title}</h2>
+                <button
+                  className="ui right floated red button"
+                  onClick={() => this.deleteProduct(product.id)}
+                >
+                  Delete
+                </button>
+                <p>Price: {product.price} </p>
+                <p>Created at: {new Date(product.created_at).toLocaleDateString()}</p>
+                <p>Seller: {product.seller.full_name}</p>
+                <br />
               </p>
-              {<button onClick={() => this.deleteProduct(p.id)}>Delete</button>}
-            </div>
-          );
-        })}
+            </li>
+          ))}
+        </ul>
       </main>
     );
   }

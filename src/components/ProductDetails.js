@@ -9,9 +9,8 @@ function ProductDetails(props) {
       </p>
       <h4>Price: ${props.price}</h4>
       <h5>Create Date: {new Date(props.created_at).toLocaleDateString()}</h5>
-      <p>
-        <small>Seller: {props.seller.full_name} </small>
-      </p>
+      <h5>Update Date: {new Date(props.updated_at).toLocaleDateString()}</h5>
+      <p>Seller: {props.seller.full_name} </p>
     </div>
   );
 }
