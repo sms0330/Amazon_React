@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import productsIndexData from '../productsIndexData';
+import NewProductForm from './NewProductForm';
 
 export class ProductIndexPage extends Component {
   constructor(props) {
@@ -8,25 +9,25 @@ export class ProductIndexPage extends Component {
       products: productsIndexData,
     };
 
-    // this.createProduct = this.createQuestion.bind(this);
+    this.createProduct = this.createProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
     console.log('Productindex Component initialized');
   }
-
-  //   createProduct(params) {
-  //     this.setState(state => {
-  //       return {
-  //         prodcuts: [
-  //           ...state.prodcuts,
-  //           {
-  //             id: Math.max(...state.prodcuts.map(q => q.id)) + 1,
-  //             title: params.title,
-  //             body: params.body,
-  //           },
-  //         ],
-  //       };
-  //     });
-  //   }
+  createProduct(params) {
+    this.setState(state => {
+      return {
+        products: [
+          {
+            ...params,
+            created_at: new Date(),
+            id: Math.max(...state.products.map(product => product.id)) + 1,
+            seller: { full_name: 'Admin User' },
+          },
+          ...state.products,
+        ],
+      };
+    });
+  }
 
   deleteProduct(id) {
     this.setState(state => {
@@ -60,6 +61,7 @@ export class ProductIndexPage extends Component {
             </li>
           ))}
         </ul>
+        <NewProductForm createProduct={this.createProduct} />
       </main>
     );
   }
