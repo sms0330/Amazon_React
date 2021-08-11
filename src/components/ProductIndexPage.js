@@ -32,7 +32,7 @@ export class ProductIndexPage extends Component {
   deleteProduct(id) {
     this.setState(state => {
       return {
-        prodcuts: this.state.prodcuts.filter(p => p.id !== id),
+        products: this.state.products.filter(p => p.id !== id),
       };
     });
   }
