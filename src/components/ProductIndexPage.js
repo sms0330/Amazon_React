@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import productsIndexData from '../productsIndexData';
-import NewProductForm from './NewProductForm';
+import { Link } from 'react-router-dom';
+import { Product } from '../requests';
+import Spinner from './Spinner';
 
-export class ProductIndexPage extends Component {
+class ProductIndexPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: productsIndexData,
+      products: [],
     };
-
     this.createProduct = this.createProduct.bind(this);
-    this.deleteProduct = this.deleteProduct.bind(this);
-    console.log('Productindex Component initialized');
+  }
+  componentDidMount() {
+    Product.index().then(products => {
+      this.setState({
+        products: products,
+      });
+    });
   }
   createProduct(params) {
     this.setState(state => {
@@ -28,41 +33,40 @@ export class ProductIndexPage extends Component {
       };
     });
   }
-
   deleteProduct(id) {
-    this.setState(state => {
+    this.setState((state, props) => {
       return {
-        products: this.state.products.filter(p => p.id !== id),
+        products: state.products.filter(q => q.id !== id),
       };
     });
   }
-
   render() {
-    console.log('Product index page rendered');
+    if (!this.state.products) {
+      return <Spinner />;
+    }
     return (
       <main>
         <h1>Products</h1>
         <ul>
           {this.state.products.map((product, index) => (
             <li key={index}>
-              <p>
-                <h2>{product.title}</h2>
-                <button
-                  className="ui right floated red button"
-                  onClick={() => this.deleteProduct(product.id)}
-                >
-                  Delete
-                </button>
-                <p>Price: {product.price} </p>
-                <p>Created at: {new Date(product.created_at).toLocaleDateString()}</p>
-                <p>Seller: {product.seller.full_name}</p>
-                <br />
-              </p>
+              <Link to={`/products/${product.id}`}>{product.title}</Link>
+              <button
+                className="ui right floated red button"
+                onClick={() => this.deleteProduct(product.id)}
+              >
+                Delete
+              </button>
+              <p>Price: {product.price} </p>
+              <p>Created at: {new Date(product.created_at).toLocaleDateString()}</p>
+              <p>Seller: {product.seller ? product.seller.full_name : null}</p>
+              <br />
             </li>
           ))}
         </ul>
-        <NewProductForm createProduct={this.createProduct} />
       </main>
     );
   }
 }
+
+export default ProductIndexPage;

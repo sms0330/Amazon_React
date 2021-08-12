@@ -1,17 +1,16 @@
 import React from 'react';
 
-function NewProductForm(props) {
-  function handleSubmit(event) {
+const NewProductForm = ({ createProduct }) => {
+  const handleSubmit = event => {
     event.preventDefault();
-    const { currentTarget } = event;
-    const formData = new FormData(currentTarget);
-
-    props.createProduct({
+    const formData = new FormData(event.currentTarget);
+    const params = {
       title: formData.get('title'),
       price: formData.get('price'),
-    });
-    currentTarget.reset();
-  }
+    };
+
+    createProduct(params);
+  };
   return (
     <form className="ui form" onSubmit={handleSubmit}>
       <div className="field">
@@ -27,6 +26,6 @@ function NewProductForm(props) {
       </button>
     </form>
   );
-}
+};
 
 export default NewProductForm;

@@ -9,15 +9,18 @@ function ReviewDetails(props) {
         {props.body} <br />
       </p>
       <p>
-        <small>Reviewer: {props.reviewer.full_name}</small>
-        <br />
         <small>rating: {props.rating}</small>
-        <br />
-        <small>Created at: {props.created_at}</small>
+        <small>Reviewer: {props.full_name}</small>
+        <small>Create Date: {props.created_at}</small>
+        <button
+          className="ui right floated red button"
+          onClick={() => {
+            props.onDeleteClick(props.id);
+          }}
+        >
+          Delete
+        </button>
       </p>
-      <button className="ui right floated red button" onClick={() => props.deleteReview(props.id)}>
-        Delete
-      </button>
       <StarRating max={5} current={props.rating} />
     </div>
   );
