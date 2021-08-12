@@ -9,6 +9,7 @@ import Home from './components/Home';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignInPage from './components/SignInPage';
 import { User } from './requests';
+import AuthRoute from './components/AuthRoute';
 
 // function App() {
 //   return (
@@ -59,7 +60,12 @@ class App extends Component {
             />
             <Route path="/" exact component={Home} />
             <Route path="/products" exact component={ProductIndexPage} />
-            <Route path="/products/new" exact component={ProductNewPage} />
+            <AuthRoute
+              isAuthenticated={!!this.state.user}
+              exact
+              path="/products/new"
+              component={ProductNewPage}
+            />
             <Route path="/products/:id" exact component={ProductShowPage} />
           </Switch>
         </Router>
