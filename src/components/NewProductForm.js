@@ -6,6 +6,7 @@ const NewProductForm = ({ createProduct }) => {
     const formData = new FormData(event.currentTarget);
     const params = {
       title: formData.get('title'),
+      description: formData.get('description'),
       price: formData.get('price'),
     };
 
@@ -16,6 +17,15 @@ const NewProductForm = ({ createProduct }) => {
       <div className="field">
         <label htmlFor="title">Title</label>
         <input type="text" name="title" id="title" placeholder="Please Enter Title" />
+      </div>
+      <div className="field">
+        <label htmlFor="title">Description</label>
+        <input
+          type="text"
+          name="description"
+          id="description"
+          placeholder="Please Enter Description"
+        />
       </div>
       <div className="field">
         <label htmlFor="price">Price</label>

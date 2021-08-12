@@ -1,5 +1,4 @@
 import React from 'react';
-
 import NewProductForm from './NewProductForm';
 import { Product } from '../requests';
 
