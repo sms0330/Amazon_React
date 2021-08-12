@@ -10,7 +10,7 @@ export const Product = {
   create(params) {
     return fetch(`${BASE_URL}/products`, {
       method: 'POST',
-      credentials: 'include', //need this for cookies
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },

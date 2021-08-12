@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignInPage from './components/SignInPage';
 import { User } from './requests';
 import AuthRoute from './components/AuthRoute';
+import SignUpPage from './components/SignUpPage';
 
 // function App() {
 //   return (
@@ -57,6 +58,11 @@ class App extends Component {
               exact
               path="/sign_in"
               render={routeProps => <SignInPage {...routeProps} onSignIn={this.getCurrentUser} />}
+            />
+            <Route
+              exact
+              path="/sign_up"
+              render={routeProps => <SignUpPage {...routeProps} onSignUp={this.getCurrentUser} />}
             />
             <Route path="/" exact component={Home} />
             <Route path="/products" exact component={ProductIndexPage} />
