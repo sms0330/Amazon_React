@@ -1,78 +1,87 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import ProductIndexPage from './components/ProductIndexPage';
 import ProductShowPage from './components/ProductShowPage';
 import ProductNewPage from './components/ProductNewPage';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-// import { Session } from './requests';
+import Spinner from './components/Spinner';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignInPage from './components/SignInPage';
-import { User } from './requests';
+import { Session, User } from './requests';
 import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
 
-// function App() {
-//   return (
-//     <div>
-//       <ProductIndexPage />
-//       <ProductShowPage />
-//     </div>
-//   );
-// }
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      currentUser: null,
+      loading: false,
     };
   }
-
+  getUser = () => {
+    User.current()
+      .then(data => {
+        if (typeof data.id !== 'number') {
+          this.setState({ loading: false });
+        } else {
+          this.setState({ loading: false, currentUser: data });
+        }
+      })
+      .catch(() => {
+        this.setState({ loading: false });
+      });
+  };
+  signOut = () => {
+    Session.destroy().then(() => {
+      this.setState({
+        currentUser: null,
+      });
+    });
+  };
   componentDidMount() {
-    this.getCurrentUser();
+    this.getUser();
   }
-
-  getCurrentUser = () => {
-    return User.current().then(user => {
-      if (user?.id) {
-        this.setState(state => {
-          return { user };
-        });
-      }
-    });
-  };
-
-  onSignOut = () => {
-    this.setState({
-      user: null,
-    });
-  };
-
   render() {
+    const { loading, currentUser } = this.state;
+    if (loading) {
+      return <Spinner />;
+    }
     return (
       <div className="ui container">
         <Router>
-          <Navbar currentUser={this.state.user} onSignOut={this.onSignOut} />
+          <Navbar currentUser={currentUser} onSignOut={this.signOut} />
           <Switch>
+            <Route path="/" exact component={Home} />
             <Route
-              exact
               path="/sign_in"
-              render={routeProps => <SignInPage {...routeProps} onSignIn={this.getCurrentUser} />}
+              exact
+              render={routeProps => <SignInPage onSignIn={this.getUser} {...routeProps} />}
             />
             <Route
               exact
               path="/sign_up"
-              render={routeProps => <SignUpPage {...routeProps} onSignUp={this.getCurrentUser} />}
+              render={routeProps => <SignUpPage {...routeProps} onSignUp={this.getUser} />}
             />
-            <Route path="/" exact component={Home} />
-            <Route path="/products" exact component={ProductIndexPage} />
             <AuthRoute
-              isAuthenticated={!!this.state.user}
+              isAuthenticated={!!currentUser}
+              exact
+              path="/products/"
+              component={ProductIndexPage}
+            />
+            <AuthRoute
+              isAuthenticated={!!currentUser}
               exact
               path="/products/new"
               component={ProductNewPage}
             />
-            <Route path="/products/:id" exact component={ProductShowPage} />
+            <AuthRoute
+              isAuthenticated={!!currentUser}
+              exact
+              path="/products/:id"
+              component={ProductShowPage}
+            />
           </Switch>
         </Router>
       </div>

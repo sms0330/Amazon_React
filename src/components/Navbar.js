@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Session } from '../requests';
 
-function Navbar({ currentUser, onSignOut }) {
-  const handleSignOut = () => {
-    Session.destroy().then(() => {
+function Navbar(props) {
+  const { currentUser, onSignOut } = props;
+  const handleSignOutClick = event => {
+    event.preventDefault();
+
+    if (typeof onSignOut === 'function') {
       onSignOut();
-    });
+    }
   };
   return (
     <nav
@@ -18,18 +20,18 @@ function Navbar({ currentUser, onSignOut }) {
     >
       <NavLink to="/">Home</NavLink>
       <NavLink to="/products">Products</NavLink>
+
       {currentUser ? (
-        <React.Fragment>
-          <NavLink to="/products/new">Products New</NavLink>-
-          <span>
-            Welcome, {currentUser.first_name}
-            {currentUser.last_name}
-          </span>
-          -<button onClick={handleSignOut}>Sign Out</button>
-        </React.Fragment>
+        <>
+          <span>Welcome {currentUser.first_name + ' ' + currentUser.last_name}</span>
+          <a href="#sign_out" onClick={handleSignOutClick}>
+            Sign Out
+          </a>
+          <NavLink to="/products/new">New Product</NavLink>
+        </>
       ) : (
         <>
-          <NavLink to="sign_in">Sign In</NavLink>
+          <NavLink to="/sign_in">Sign In</NavLink>
           <NavLink to="sign_up">Sign Up</NavLink>
         </>
       )}

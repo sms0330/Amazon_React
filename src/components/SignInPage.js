@@ -1,41 +1,68 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Session } from '../requests';
 
-function SignInPage(props) {
-  const { onSignIn } = props;
+export default class SignInPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errors: [],
+    };
+  }
 
-  function handleSubmit(event) {
+  createSession = event => {
     event.preventDefault();
-    const { currentTarget } = event;
-    const formData = new FormData(currentTarget);
-    const params = {
+    const { currentTarget: form } = event;
+    const formData = new FormData(form);
+
+    const user = {
       email: formData.get('email'),
       password: formData.get('password'),
     };
 
-    Session.create(params).then(data => {
-      if (data.id) {
-        onSignIn();
-        props.history.push('/products');
+    Session.create(user).then(data => {
+      if (data.status === 404) {
+        this.setState({
+          errors: [{ message: 'Wrong email or password' }],
+        });
+      } else {
+        this.setState({
+          errors: [],
+        });
+        console.log(data);
+        this.props.history.push('/');
+        if (typeof this.props.onSignIn === 'function') {
+          this.props.onSignIn();
+        }
       }
     });
-  }
-  return (
-    <main>
-      <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" />
-        </div>
-        <div>
-          <label htmlFor="password">password</label>
-          <input type="password" name="password" id="password" />
-        </div>
-        <input type="submit" value="Sign In" />
-      </form>
-    </main>
-  );
-}
+  };
 
-export default SignInPage;
+  render() {
+    const { errors } = this.state;
+    return (
+      <main>
+        <form className="ui form" onSubmit={this.createSession}>
+          {errors.length > 0 ? (
+            <div className="ui negative message">
+              <div className="header">Error Signing in...</div>
+              <p>{errors.map(err => err.message).join(', ')}</p>
+            </div>
+          ) : (
+            ''
+          )}
+          <div className="field">
+            <label htmlFor="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="email@example.com" />
+          </div>
+          <div className="field">
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" />
+          </div>
+          <button className="ui primary button" type="submit">
+            Sign In
+          </button>
+        </form>
+      </main>
+    );
+  }
+}
