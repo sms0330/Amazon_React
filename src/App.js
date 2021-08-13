@@ -11,6 +11,7 @@ import SignInPage from './components/SignInPage';
 import { Session, User } from './requests';
 import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
+import NotFoundPage from './components/NotFoundPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -82,6 +83,7 @@ class App extends React.Component {
               path="/products/:id"
               component={ProductShowPage}
             />
+            <Route component={NotFoundPage} />
           </Switch>
         </Router>
       </div>
