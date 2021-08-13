@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import ProductIndexPage from './components/ProductIndexPage';
 import ProductShowPage from './components/ProductShowPage';
-import ProductNewPage from './components/ProductNewPage';
+import NewProductPage from './components/NewProductPage';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Spinner from './components/Spinner';
@@ -75,7 +75,7 @@ class App extends React.Component {
               isAuthenticated={!!currentUser}
               exact
               path="/products/new"
-              component={ProductNewPage}
+              component={NewProductPage}
             />
             <AuthRoute
               isAuthenticated={!!currentUser}

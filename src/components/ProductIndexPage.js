@@ -9,7 +9,7 @@ class ProductIndexPage extends Component {
     this.state = {
       products: [],
     };
-    this.createProduct = this.createProduct.bind(this);
+    // this.createProduct = this.createProduct.bind(this);
   }
   componentDidMount() {
     Product.index().then(products => {
@@ -18,21 +18,21 @@ class ProductIndexPage extends Component {
       });
     });
   }
-  createProduct(params) {
-    this.setState(state => {
-      return {
-        products: [
-          {
-            ...params,
-            created_at: new Date(),
-            id: Math.max(...state.products.map(product => product.id)) + 1,
-            seller: { full_name: 'Admin User' },
-          },
-          ...state.products,
-        ],
-      };
-    });
-  }
+  // createProduct(params) {
+  //   this.setState(state => {
+  //     return {
+  //       products: [
+  //         {
+  //           ...params,
+  //           created_at: new Date(),
+  //           id: Math.max(...state.products.map(product => product.id)) + 1,
+  //           seller: { full_name: 'Admin User' },
+  //         },
+  //         ...state.products,
+  //       ],
+  //     };
+  //   });
+  // }
   deleteProduct(id) {
     this.setState((state, props) => {
       return {
