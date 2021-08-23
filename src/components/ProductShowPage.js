@@ -33,6 +33,8 @@ export default function ProductShowPage(props) {
     <div>
       <h1>Product</h1>
       <ProductDetails {...product} />
+      <br />
+      <h2>Reviews</h2>
       <NewReviewForm
         body={review.body}
         rating={review.rating}

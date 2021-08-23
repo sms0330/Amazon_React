@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
-import NewProductForm from './NewProductForm';
 import { Product } from '../requests';
+import NewProductForm from './NewProductForm';
 
-class NewProductPage extends Component {
+export default class NewProductPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { errors: [] };
-    this.createProduct = this.createProduct.bind(this);
+    this.state = {
+      errors: [],
+      product: {},
+    };
   }
-  createProduct(params) {
-    console.log(`Params: ${params.title} ${params.body}`);
-    Product.create(params).then(product => {
-      console.log(`product: ${product.errors}`);
+  createProduct = event => {
+    event.preventDefault();
+    Product.create(this.state.product).then(product => {
       if (product.errors) {
-        console.log(`ProductErrors: ${product.errors}`);
         this.setState({ errors: product.errors });
-      } else {
-        const id = product.id;
-        this.props.history.push(`/products/${id}`);
-      }
+      } else this.props.history.push(`/products/${product.id}`);
     });
-  }
+  };
 
   render() {
     return (
-      <div className="header">
-        <NewProductForm createQuestion={this.createProduct} errors={this.state.errors} />
-      </div>
+      <main>
+        <div className="header">Create a Product</div>
+        <NewProductForm
+          createProduct={this.createProduct}
+          product={this.state.product}
+          errors={this.state.errors}
+          onChange={val => this.setState({ product: { ...this.state.product, ...val } })}
+        />
+      </main>
     );
   }
 }
-
-export default NewProductPage;

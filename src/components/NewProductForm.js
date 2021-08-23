@@ -1,48 +1,59 @@
-import React from 'react';
+import React, { Component } from 'react';
 import FormErrors from './FormErrors';
 
-const NewProductForm = props => {
-  const handleSubmit = event => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const params = {
-      title: formData.get('title'),
-      description: formData.get('description'),
-      price: formData.get('price'),
-    };
+export default class NewProductForm extends Component {
+  render() {
+    return (
+      <form className="ui form" onSubmit={this.props.createProduct}>
+        <div className="field">
+          <label htmlFor="title">Title</label>
 
-    props.createQuestion(params);
-  };
-  return (
-    <form className="ui form" onSubmit={handleSubmit}>
-      <div className="field">
-        <label htmlFor="title">Title</label>
-        <input type="text" name="title" id="title" placeholder="Please Enter Title" />
-        <FormErrors forField="title" errors={props.errors} />
-        <br />
-      </div>
-      <div className="field">
-        <label htmlFor="description">Description</label>
-        <input
-          type="text"
-          name="description"
-          id="description"
-          placeholder="Please Enter Description"
-        />
-        <FormErrors forField="description" errors={props.errors} />
-        <br />
-      </div>
-      <div className="field">
-        <label htmlFor="price">Price</label>
-        <input type="number" name="price" id="price" placeholder="Please Enter Price" />
-        <FormErrors forField="price" errors={props.errors} />
-        <br />
-      </div>
-      <button className="ui button" type="submit">
-        Submit
-      </button>
-    </form>
-  );
-};
+          <FormErrors errors={this.props.errors} formField="title" />
+          <input
+            type="text"
+            onChange={e => {
+              this.props.onChange({ title: e.target.value });
+            }}
+            value={this.props.product.title}
+            name="title"
+            id="title"
+            placeholder="Please Enter Title"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="price">Price</label>
 
-export default NewProductForm;
+          <FormErrors errors={this.props.errors} formField="price" />
+          <input
+            type="number"
+            onChange={e => {
+              this.props.onChange({ price: e.target.value });
+            }}
+            value={this.props.product.price}
+            name="price"
+            id="price"
+            placeholder="Please Enter Price"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="description">Description</label>
+
+          <FormErrors errors={this.props.errors} formField="description" />
+          <input
+            type="text"
+            onChange={e => {
+              this.props.onChange({ description: e.target.value });
+            }}
+            value={this.props.product.description}
+            name="description"
+            id="description"
+            placeholder="Please Enter Description"
+          />
+        </div>
+        <button className="ui button" type="submit">
+          Submit
+        </button>
+      </form>
+    );
+  }
+}
