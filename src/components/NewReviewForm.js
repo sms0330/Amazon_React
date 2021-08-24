@@ -27,6 +27,7 @@ export default function NewReviewForm(props) {
           onChange={e => {
             onChange({ ...review, rating: e.target.value });
           }}
+          placeholder="5"
         />
       </div>
       <button className="ui primary button" type="submit">
