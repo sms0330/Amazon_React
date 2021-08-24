@@ -18,35 +18,37 @@ const SignUpPage = props => {
     User.create(params).then(user => {
       if (user?.id) {
         onSignUp(); //store user in App state
-        props.history.push('/questions'); //navigate to index
+        props.history.push('/'); //navigate to index
       }
     });
   };
   return (
     <main>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <h1 className="ui center aligned header">Sign Up</h1>
+      <form className="ui large form" onSubmit={handleSubmit}>
+        <div className="field">
           <label htmlFor="first_name">First Name</label>
-          <input type="first_name" name="first_name" id="first_name" />
+          <input type="text" name="first_name" id="first_name" required />
         </div>
-        <div>
+        <div className="field">
           <label htmlFor="last_name">Last Name</label>
-          <input type="last_name" name="last_name" id="last_name" />
+          <input type="text" name="last_name" id="last_name" required />
         </div>
-        <div>
+        <div className="field">
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" name="email" id="email" required />
         </div>
-        <div>
-          <label htmlFor="password">password</label>
-          <input type="password" name="password" id="password" />
+        <div className="field">
+          <label htmlFor="password">Password</label>
+          <input type="password" name="password" id="password" required />
         </div>
-        <div>
-          <label htmlFor="password_confirmation">password_confirmation</label>
-          <input type="password" name="password_confirmation" id="password_confirmation" />
+        <div className="field">
+          <label htmlFor="password_confirmation">Password Confirmation</label>
+          <input type="password" name="password_confirmation" id="password_confirmation" required />
         </div>
-        <input type="submit" value="Sign Up" />
+        <button className="ui right floated primary button" type="submit">
+          Sign Up
+        </button>
       </form>
     </main>
   );

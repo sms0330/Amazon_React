@@ -1,15 +1,9 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Session } from '../requests';
 
-export default class SignInPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      errors: [],
-    };
-  }
-
-  createSession = event => {
+export default function SignInPage(props) {
+  const [errors, setErrors] = useState([]);
+  const createSession = event => {
     event.preventDefault();
     const { currentTarget: form } = event;
     const formData = new FormData(form);
@@ -21,48 +15,39 @@ export default class SignInPage extends Component {
 
     Session.create(user).then(data => {
       if (data.status === 404) {
-        this.setState({
-          errors: [{ message: 'Wrong email or password' }],
-        });
+        setErrors([{ message: 'Wrong email or password' }]);
       } else {
-        this.setState({
-          errors: [],
-        });
-        console.log(data);
-        this.props.history.push('/');
-        if (typeof this.props.onSignIn === 'function') {
-          this.props.onSignIn();
+        setErrors([]);
+        props.history.push('/');
+        if (typeof props.onSignIn === 'function') {
+          props.onSignIn();
         }
       }
     });
   };
-
-  render() {
-    const { errors } = this.state;
-    return (
-      <main>
-        <form className="ui form" onSubmit={this.createSession}>
-          {errors.length > 0 ? (
-            <div className="ui negative message">
-              <div className="header">Error Signing in...</div>
-              <p>{errors.map(err => err.message).join(', ')}</p>
-            </div>
-          ) : (
-            ''
-          )}
-          <div className="field">
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="email@example.com" />
+  return (
+    <main>
+      <form className="ui form" onSubmit={createSession}>
+        {errors.length > 0 ? (
+          <div className="ui negative message">
+            <div className="header">Error Signing in...</div>
+            <p>{errors.map(err => err.message).join(', ')}</p>
           </div>
-          <div className="field">
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Password" />
-          </div>
-          <button className="ui primary button" type="submit">
-            Sign In
-          </button>
-        </form>
-      </main>
-    );
-  }
+        ) : (
+          ''
+        )}
+        <div className="field">
+          <label htmlFor="email">Email</label>
+          <input type="email" name="email" id="email" placeholder="email@example.com" />
+        </div>
+        <div className="field">
+          <label htmlFor="password">Password</label>
+          <input type="password" name="password" id="password" placeholder="Password" />
+        </div>
+        <button className="ui primary button" type="submit">
+          Sign In
+        </button>
+      </form>
+    </main>
+  );
 }

@@ -29,7 +29,7 @@ export default function NewReviewForm(props) {
           }}
         />
       </div>
-      <button className="ui button" type="submit">
+      <button className="ui primary button" type="submit">
         Submit
       </button>
     </form>

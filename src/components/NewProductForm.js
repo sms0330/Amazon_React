@@ -50,7 +50,7 @@ export default class NewProductForm extends Component {
             placeholder="Please Enter Description"
           />
         </div>
-        <button className="ui button" type="submit">
+        <button className="ui primary button" type="submit">
           Submit
         </button>
       </form>
