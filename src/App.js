@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import ProductIndexPage from './components/ProductIndexPage';
 import ProductShowPage from './components/ProductShowPage';
@@ -13,82 +13,72 @@ import AuthRoute from './components/AuthRoute';
 import SignUpPage from './components/SignUpPage';
 import NotFoundPage from './components/NotFoundPage';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUser: null,
-      loading: false,
-    };
-  }
-  getUser = () => {
-    User.current()
-      .then(data => {
-        if (typeof data.id !== 'number') {
-          this.setState({ loading: false });
-        } else {
-          this.setState({ loading: false, currentUser: data });
-        }
-      })
-      .catch(() => {
-        this.setState({ loading: false });
-      });
-  };
-  signOut = () => {
-    Session.destroy().then(() => {
-      this.setState({
-        currentUser: null,
-      });
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const getUser = useCallback(() => {
+    User.current().then(data => {
+      if (typeof data.id !== 'number') {
+        setCurrentUser(null);
+        setLoading(false);
+      } else {
+        setCurrentUser(data);
+        setLoading(false);
+      }
     });
+  }, []);
+
+  const signOut = () => {
+    Session.destroy().then(setCurrentUser(null));
   };
-  componentDidMount() {
-    this.getUser();
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
+  if (loading) {
+    return <Spinner />;
   }
-  render() {
-    const { loading, currentUser } = this.state;
-    if (loading) {
-      return <Spinner />;
-    }
-    return (
-      <div className="ui container">
-        <Router>
-          <Navbar currentUser={currentUser} onSignOut={this.signOut} />
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route
-              path="/sign_in"
-              exact
-              render={routeProps => <SignInPage onSignIn={this.getUser} {...routeProps} />}
-            />
-            <Route
-              exact
-              path="/sign_up"
-              render={routeProps => <SignUpPage {...routeProps} onSignUp={this.getUser} />}
-            />
-            <AuthRoute
-              isAuthenticated={!!currentUser}
-              exact
-              path="/products/"
-              component={ProductIndexPage}
-            />
-            <AuthRoute
-              isAuthenticated={!!currentUser}
-              exact
-              path="/products/new"
-              component={NewProductPage}
-            />
-            <AuthRoute
-              isAuthenticated={!!currentUser}
-              exact
-              path="/products/:id"
-              component={ProductShowPage}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="ui container">
+      <Router>
+        <Navbar currentUser={currentUser} onSignOut={signOut} />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route
+            path="/sign_in"
+            exact
+            render={routeProps => <SignInPage onSignIn={getUser} {...routeProps} />}
+          />
+          <Route
+            exact
+            path="/sign_up"
+            render={routeProps => <SignUpPage {...routeProps} onSignUp={getUser} />}
+          />
+          <AuthRoute
+            isAuthenticated={!!currentUser}
+            exact
+            path="/products/"
+            component={ProductIndexPage}
+          />
+          <AuthRoute
+            isAuthenticated={!!currentUser}
+            exact
+            path="/products/new"
+            component={NewProductPage}
+          />
+          <AuthRoute
+            isAuthenticated={!!currentUser}
+            exact
+            path="/products/:id"
+            component={ProductShowPage}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Router>
+    </div>
+  );
+};
 
 export default App;
