@@ -19,7 +19,7 @@ const App = () => {
 
   const getUser = useCallback(() => {
     User.current().then(data => {
-      if (typeof data.id !== 'number') {
+      if (data && typeof data.id !== 'number') {
         setCurrentUser(null);
         setLoading(false);
       } else {
